@@ -1,0 +1,48 @@
+.creator-page {
+  background: rgba(128, 128, 128, 0.11);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.creator-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 800px;
+  background: #ffffff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 30px;
+  text-align: center;
+}
+
+.creator-image img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #0cbb69;
+  margin-bottom: 20px;
+}
+
+.creator-info h1 {
+  font-size: 44px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.creator-info h4 {
+  font-size: 32px;
+  color: #0cbb69;
+  margin-bottom: 20px;
+}
+
+.creator-info p {
+  font-size: 20px;
+  color: gray;
+  line-height: 2;
+  margin-bottom: 20px;
+}
