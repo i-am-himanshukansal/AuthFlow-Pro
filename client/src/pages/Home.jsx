@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import  { useContext } from "react";
 import Hero from "../components/Hero";
 import Creator from "../components/Creator";
 import Technologies from "../components/Technologies";

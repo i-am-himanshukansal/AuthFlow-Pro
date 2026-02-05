@@ -34,7 +34,7 @@ const OtpVerification = () => {
       otp : enteredOtp
     }
     try{
-      const response = await axios.post("http://localhost:4000/api/v1/user/otp-verification",
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/otp-verification`,
                                         data,
                                         {
                                           withCredentials : true,

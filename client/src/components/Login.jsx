@@ -15,7 +15,7 @@ const {isAuthenticated,setIsAuthenticated,user,setUser} = useContext(Context);
     formState: { errors }
   } = useForm();
   const handleLogin = async (data)=>{
-    axios.post("http://localhost:4000/api/v1/user/login",data,{
+    axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/login`,data,{
       withCredentials : true,
       headers: {
         "Content-Type" : "application/json",

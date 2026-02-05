@@ -9,7 +9,7 @@ const ForgotPassword = () => {
   const [email,setEmail]  = useState("");
   const handleForgotPassword = async(e)=>{
     e.preventDefault();
-    await axios.post("http://localhost:4000/api/v1/user/password/forgot",
+    await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/password/forgot`,
       {email},
       {
         withCredentials : true,
