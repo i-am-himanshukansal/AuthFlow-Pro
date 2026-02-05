@@ -109,45 +109,69 @@ export const register = catchAsyncError(async (req, res, next) => {
     }
 });
 
-async function sendVerificationCode(verificationMethod, verificationCode, name, email, phone, res) {
+async function sendVerificationCode(
+  verificationMethod,
+  verificationCode,
+  name,
+  email,
+  phone,
+  res
+) {
+  try {
     if (verificationMethod === "email") {
-        const message = generateEmailTemplate(verificationCode);
-        await sendEmail({ email, subject: "Your verification code", message });
-        return res.status(201).json({
-            success: true,
-            message: `Verification code sent to ${name} successfully`,
-        });
+      const message = generateEmailTemplate(verificationCode);
+
+      await sendEmail({
+        email,
+        subject: "Your verification code",
+        message,
+      });
+
+      return res.status(201).json({
+        success: true,
+        message: `Verification code sent to ${name} successfully`,
+      });
     }
 
     if (verificationMethod === "phone") {
-        try {
-            const client = getTwilioClient();
-            const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
+      const client = getTwilioClient();
+      const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
-            if (!twilioPhoneNumber) {
-                throw new Error("Twilio phone number not configured.");
-            }
+      if (!twilioPhoneNumber) {
+        console.error("TWILIO_PHONE_NUMBER missing");
+        return res.status(500).json({
+          success: false,
+          message: "Phone verification service not configured",
+        });
+      }
 
-            const twiml = generateOtpTwiML(verificationCode);
+      const twiml = generateOtpTwiML(verificationCode);
 
-            await client.calls.create({
-                twiml,
-                from: twilioPhoneNumber,
-                to: phone,
-            });
+      await client.calls.create({
+        twiml,
+        from: twilioPhoneNumber,
+        to: phone,
+      });
 
-            return res.status(201).json({
-                success: true,
-                message: `OTP sent to ${name} via voice call successfully`,
-            });
-        } catch (err) {
-            throw new Error("Failed to send verification code via voice call.");
-        }
+      return res.status(201).json({
+        success: true,
+        message: `OTP sent to ${name} via voice call successfully`,
+      });
     }
 
-    throw new Error("Invalid verification method.");
-}
+    return res.status(400).json({
+      success: false,
+      message: "Invalid verification method",
+    });
+  } catch (error) {
+    console.error("OTP VERIFICATION ERROR:", error.message);
 
+    return res.status(500).json({
+      success: false,
+      message: "Failed to send verification code",
+    });
+  }
+}
 function generateEmailTemplate(verificationCode) {
     return `
         <div style="font-family:Arial;max-width:600px;margin:auto;padding:20px">
