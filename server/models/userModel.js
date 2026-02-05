@@ -51,7 +51,9 @@ userSchema.pre("save", async function () {
 
 // compare password
 userSchema.methods.comparePassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
+  const ans =  await bcrypt.compare(enteredPassword, this.password);
+  // console.log("Password match result:", ans);
+  return ans;
 };
 userSchema.methods.generateVerificationCode = function(){
   function generateFiveDigitNumber(){

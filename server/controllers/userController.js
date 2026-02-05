@@ -223,11 +223,11 @@ export const login  = catchAsyncError(async (req,res,next)=>{
     }
     const user= await User.findOne({email,accountVerified:true}).select("+password");
     if(!user){
-        return next (new ErrorHandler("Invalid email or password",400))
+        return next (new ErrorHandler("email not registered.",409))
     } 
     const ispasswordMatched = await user.comparePassword(password);
     if(!ispasswordMatched){
-        return next (new ErrorHandler("Invalid email or password",400))
+        return next (new ErrorHandler("Invalid email or password",403))
     }
     if(!ispasswordMatched){
         return next (new ErrorHandler("Invalid email or password",400))
@@ -236,6 +236,7 @@ export const login  = catchAsyncError(async (req,res,next)=>{
 })
 
 export const logout = catchAsyncError(async (req, res, next) => {
+    //to token=="" or null
     res.status(200).cookie("token", null, {
         expires: new Date(Date.now()),
         httpOnly: true,

@@ -20,6 +20,25 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+      success: true,
+      message: "Welcome to the MERN Authentication System",
+  });
+});
+app.get("/api/v1/healthcheck", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Server is healthy",
+  });
+});
+app.get("/healthcheck", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Server is healthy",
+  });
+}); 
 app.use("/api/v1/user",userRouter);
 removeUnverifiedAccounts();
 connection();
